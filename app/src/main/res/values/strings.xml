@@ -2,4 +2,5 @@
     <string name="app_name">AreaCalculator</string>
     <string name="title_activity_maps" translatable="false">Map</string>
     <string name="area">Area</string>
+    <string name="search">Search</string>
 </resources>

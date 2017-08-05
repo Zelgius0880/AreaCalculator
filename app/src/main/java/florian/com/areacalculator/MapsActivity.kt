@@ -20,8 +20,6 @@ import kotlinx.android.synthetic.main.activity_maps.*
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-    var moveMarker = false
-    var marker: Marker? = null
     val list = mutableListOf<Marker>()
     var line: Polygon? = null
 
@@ -32,6 +30,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        clear.setOnClickListener({ _ ->
+            for(m: Marker in list) m.remove()
+            list.clear()
+            line?.remove()
+            cardView.visibility = View.GONE
+        })
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -143,16 +147,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun drawLine() {
         line?.remove()
-        val options = PolygonOptions()
-                .strokeWidth(5f)
-                .strokeColor(Color.BLUE)
 
-        for (m: Marker in list)
-            options.add(LatLng(m.position.latitude, m.position.longitude))
+        if(list.size > 0) {
+            val options = PolygonOptions()
+                    .strokeWidth(5f)
+                    .strokeColor(Color.BLUE)
 
-        //if(list.size > 2) options.add(LatLng(list.last().position.latitude, list.last().position.longitude))
+            for (m: Marker in list)
+                options.add(LatLng(m.position.latitude, m.position.longitude))
 
-        line = mMap.addPolygon(options)
+            //if(list.size > 2) options.add(LatLng(list.last().position.latitude, list.last().position.longitude))
+
+            line = mMap.addPolygon(options)
+        }
     }
 
     private fun computeArea() {

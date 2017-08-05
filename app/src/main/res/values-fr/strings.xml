@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">AreaCalculator</string>
     <string name="area">Superficie</string>
+    <string name="search">Chercher</string>
 </resources>
